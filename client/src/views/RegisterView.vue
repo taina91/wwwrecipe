@@ -1,34 +1,28 @@
 <template lang="">
   <div>
-    <h1>Register</h1>
-    <input v-model="email" type="email" name="email" /> <br />
-    <input v-model="password" type="password" name="password" /><br />
-    <button @click="register">Register</button>
-    <ul>
-      <li v-for="user in users">{{ user.first_name }} {{ user.first_name }}</li>
-    </ul>
+    <registr-form v-if="state" @click="stateAuth" />
+    <auth-form v-else @click="stateReg" />
   </div>
 </template>
 <script>
-import AuthService from "@/services/AuthService";
+import RegistrForm from "@/components/RegistrForm";
+import AuthForm from "@/components/AuthForm";
 export default {
+  components: {
+    RegistrForm,
+    AuthForm,
+  },
   data() {
     return {
-      // email: "",
-      // password: "",
-      users: [],
+      state: false,
     };
   },
   methods: {
-    async register() {
-      const response = await AuthService.register({
-        // email: this.email,
-        // password: this.password,
-        users: this.users,
-      });
-      this.users = response.data;
-      console.log(response.data);
-      console.log(this.users);
+    stateReg() {
+      this.state = true;
+    },
+    stateAuth() {
+      this.state = false;
     },
   },
 };

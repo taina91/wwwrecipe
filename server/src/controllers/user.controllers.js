@@ -1,4 +1,4 @@
-const db = require("../db");
+const db = require("../config/db");
 class UserControllers {
   async createUser(req, res) {
     const { first_name, last_name, email, password } = req.body;
@@ -15,6 +15,13 @@ class UserControllers {
   async getOneUser(req, res) {
     const id = req.params.id;
     const user = await db.query("SELECT * FROM users WHERE id = $1;", [id]);
+    res.json(user.rows[0]);
+  }
+  async getOneFromEmailUser(req, res) {
+    const email = req.query.email;
+    const user = await db.query("SELECT * FROM users WHERE email = $1;", [
+      email,
+    ]);
     res.json(user.rows[0]);
   }
   async updateUser(req, res) {

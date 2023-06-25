@@ -3,8 +3,9 @@ const router = new Router();
 const userControllers = require("../controllers/user.controllers");
 
 router.post("/user", userControllers.createUser);
-router.get("/user", userControllers.getUsers);
+router.get("/users", userControllers.getUsers);
 router.get("/user/:id", userControllers.getOneUser);
+router.get("/user", userControllers.getOneFromEmailUser);
 router.put("/user", userControllers.updateUser);
 router.delete("/user/:id", userControllers.deleteUser);
 
