@@ -1,7 +1,8 @@
 <template lang="">
   <div>
-    <registr-form v-if="state" @click="stateAuth" />
-    <auth-form v-else @click="stateReg" />
+    <registr-form v-if="state" v-model:state="state" />
+    <auth-form v-else v-model:state="state" />
+    <!-- @click="stateReg(element)" -->
   </div>
 </template>
 <script>
@@ -16,14 +17,6 @@ export default {
     return {
       state: false,
     };
-  },
-  methods: {
-    stateReg() {
-      this.state = true;
-    },
-    stateAuth() {
-      this.state = false;
-    },
   },
 };
 </script>
