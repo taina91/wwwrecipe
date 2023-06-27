@@ -15,10 +15,17 @@ export default createStore({
         state.isLoggedIn = false;
       }
     },
+    unsetUser(state) {
+      state.user = null;
+      state.isLoggedIn = false;
+    },
   },
   actions: {
     setUser({ commit }, user) {
       commit("setUser", user);
+    },
+    unsetUser({ commit }) {
+      commit("unsetUser");
     },
   },
   modules: {},
