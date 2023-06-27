@@ -41,6 +41,7 @@ nav {
   position: sticky;
   top: 0;
   background-color: #f5f5f7;
+  z-index: 100;
 }
 .menu {
   display: flex;

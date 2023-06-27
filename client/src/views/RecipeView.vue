@@ -36,6 +36,7 @@ export default {
         });
         console.log(response.data);
         this.recipes = response.data;
+        console.log(this.recipes);
       } catch (error) {
         console.log(error);
       }

@@ -1,21 +1,15 @@
 <template lang="">
   <div class="recipe">
-    <div class="photo"></div>
+    <div class="photo" @click="$router.push(`/recipes/${recipe.id}`)"></div>
     <div class="recipe__info">
       <div class="title">{{ recipe.title }}</div>
       <div class="author">Автор: {{ recipe.author }}</div>
       <div class="info">
-        <!-- <p>{{ recipe.products.length }} ингридиентов</p> -->
         <div class="dropdown">
           <button class="dropbtn">
             {{ recipe.products.length }} ингридиентов
           </button>
           <div class="dropdown-content">
-            <!-- <p v-for="ing in recipe.products" :key="ing.title">
-              {{ ing.title.padEnd(30, "ㅤ") }}
-              {{ String(ing.count).padStart(10, "ㅤ") }}
-              {{ ing.unit }}
-            </p> -->
             <div
               class="ingr__item"
               v-for="ing in recipe.products"
