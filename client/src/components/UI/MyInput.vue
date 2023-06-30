@@ -35,4 +35,7 @@ export default {
   outline: none;
   border: 2px solid #ff5800;
 }
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
 </style>
