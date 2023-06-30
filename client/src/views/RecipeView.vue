@@ -42,12 +42,10 @@
         <my-button @click="clearSearthOptions">Сбросить</my-button>
       </div>
     </div>
-    <div v-if="loading">
-      <recipe-list :recipes="recipes" />
-      <my-button v-if="!end" style="margin: 20px auto" @click="showMore"
-        >Показать еще</my-button
-      >
-    </div>
+    <recipe-list :recipes="recipes" />
+    <my-button v-if="!end" style="margin: 20px auto" @click="showMore"
+      >Показать еще</my-button
+    >
   </div>
 </template>
 <script>
@@ -70,7 +68,6 @@ export default {
       searchTags: [],
       searchProdIncl: [],
       searchProdExcl: [],
-      loading: false,
     };
   },
   methods: {
@@ -151,6 +148,7 @@ export default {
       this.searchTags = [];
       this.searchProdIncl = [];
       this.searchProdExcl = [];
+      this.fetchRecipes();
     },
   },
   mounted() {

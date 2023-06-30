@@ -77,13 +77,20 @@ class RecipeControllers {
   async getRecipesWithOptions(req, res) {
     let recipeId = [];
     if (req.query.withProduct) {
-      let queryStr =
-        "SELECT distinct id_recipe FROM recipe_product WHERE id_product in (";
+      let tmpStr = "";
+      let tmpCnt = req.query.withProduct.length;
       req.query.withProduct.forEach((a) => {
-        queryStr += a + ",";
+        tmpStr += a + ",";
       });
-      queryStr = queryStr.slice(0, -1);
-      queryStr += ");";
+      tmpStr = tmpStr.slice(0, -1);
+      let queryStr =
+        "select id_recipe from" +
+        " ( select id_recipe from recipe_product rp where id_product in (" +
+        tmpStr +
+        ")) as pr group by pr.id_recipe having count(pr.id_recipe) =" +
+        tmpCnt +
+        ";";
+      console.log(queryStr);
       const recipes = await db.query(queryStr);
       recipes.rows.forEach((element) => {
         recipeId.push(element.id_recipe);
@@ -112,39 +119,41 @@ class RecipeControllers {
     }
     if (req.query.tags) {
     }
-    let tmpStr = "";
-    recipeId.forEach((a) => {
-      tmpStr += a + ",";
-    });
-    tmpStr = tmpStr.slice(0, -1);
-    const queryStr =
-      "SELECT * FROM recipes WHERE id in (" + tmpStr + ") ORDER BY id;";
-    const recipesRes = await db.query(queryStr);
     const result = [];
-    for (var i = 0; i < recipesRes.rows.length; i++) {
-      const products = await db.query(
-        "SELECT title, count, unit FROM recipe_product join products on products.id = recipe_product.id_product WHERE id_recipe = $1",
-        [recipesRes.rows[i].id]
-      );
-      let jsonFile = null;
-      if (recipesRes.rows[i].url_recipe_text !== null) {
-        const tempPath = path.join(
-          path.resolve(__dirname, "..", ".."),
-          recipesRes.rows[i].url_recipe_text
+    if (recipeId.length > 0) {
+      let tmpStr = "";
+      recipeId.forEach((a) => {
+        tmpStr += a + ",";
+      });
+      tmpStr = tmpStr.slice(0, -1);
+      const queryStr =
+        "SELECT * FROM recipes WHERE id in (" + tmpStr + ") ORDER BY id;";
+      const recipesRes = await db.query(queryStr);
+      for (var i = 0; i < recipesRes.rows.length; i++) {
+        const products = await db.query(
+          "SELECT title, count, unit FROM recipe_product join products on products.id = recipe_product.id_product WHERE id_recipe = $1",
+          [recipesRes.rows[i].id]
         );
-        jsonFile = JSON.parse(fs.readFileSync(tempPath, "utf8"));
+        let jsonFile = null;
+        if (recipesRes.rows[i].url_recipe_text !== null) {
+          const tempPath = path.join(
+            path.resolve(__dirname, "..", ".."),
+            recipesRes.rows[i].url_recipe_text
+          );
+          jsonFile = JSON.parse(fs.readFileSync(tempPath, "utf8"));
+        }
+        result[i] = {
+          id: recipesRes.rows[i].id,
+          title: recipesRes.rows[i].title,
+          author: recipesRes.rows[i].author,
+          time_cooking: recipesRes.rows[i].time_cooking,
+          difficult: recipesRes.rows[i].difficult,
+          portions: recipesRes.rows[i].portions,
+          recipe_text: jsonFile,
+          url_main_img: recipesRes.rows[i].url_main_img,
+          products: products.rows,
+        };
       }
-      result[i] = {
-        id: recipesRes.rows[i].id,
-        title: recipesRes.rows[i].title,
-        author: recipesRes.rows[i].author,
-        time_cooking: recipesRes.rows[i].time_cooking,
-        difficult: recipesRes.rows[i].difficult,
-        portions: recipesRes.rows[i].portions,
-        recipe_text: jsonFile,
-        url_main_img: recipesRes.rows[i].url_main_img,
-        products: products.rows,
-      };
     }
     res.json(result);
     // res.send(recipeId);
