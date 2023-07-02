@@ -9,10 +9,6 @@ export default {
       type: String,
       default: "text",
     },
-    srcImg: {
-      type: String,
-      default: "",
-    },
     modelValue: [String, Number],
   },
   methods: {

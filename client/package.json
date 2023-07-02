@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "axios": "^1.4.0",
@@ -14,10 +15,21 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/vue": "^6.6.1",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0"
+    "@vue/cli-service": "~5.0.0",
+    "@vue/test-utils": "^2.4.0",
+    "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "babel-jest": "^27.0.6",
+    "color": "^4.2.3",
+    "jest": "^27.5.1",
+    "jsdom": "^22.1.0",
+    "jsdom-global": "^3.0.2"
   },
   "browserslist": [
     "> 1%",

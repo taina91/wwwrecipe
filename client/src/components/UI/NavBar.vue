@@ -11,7 +11,7 @@
     </div>
     <div v-else class="dropdown">
       <div class="dropbtn">
-        <img src="@/assets/profile.svg" alt="" />
+        <img src="@/assets/profile.svg" alt="Profile Image" />
       </div>
       <div class="dropdown-content">
         <p class="menu__item">Мои рецепты</p>

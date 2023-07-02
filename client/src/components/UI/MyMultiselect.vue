@@ -39,6 +39,7 @@
       v-bind:value="src"
       @input="src = $event.target.value"
       @click="focused = false"
+      aria-label="Select more"
     />
   </div>
 </template>
@@ -79,7 +80,7 @@ export default {
       e.stopPropagation();
     },
     handlerOptionClick(i) {
-      let clickedValue = (this.options.id = i);
+      let clickedValue = i;
       let newValue = [...this.modelValue];
 
       let existInd = this.modelValue.findIndex((v) => v === clickedValue);
